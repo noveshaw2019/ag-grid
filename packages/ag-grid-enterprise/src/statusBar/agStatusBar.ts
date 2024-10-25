@@ -15,11 +15,11 @@ import { agStatusBarCSS } from './agStatusBar.css-GENERATED';
 import type { StatusBarService } from './statusBarService';
 
 function getStatusPanelCompDetails(
-    userComponentFactory: UserComponentFactory,
+    userCompFactory: UserComponentFactory,
     def: StatusPanelDef,
     params: WithoutGridCommon<IStatusPanelParams>
 ): UserCompDetails {
-    return userComponentFactory.getCompDetails(def, StatusPanelComponent, null, params, true)!;
+    return userCompFactory.getCompDetails(def, StatusPanelComponent, null, params, true)!;
 }
 
 const StatusPanelComponent: ComponentType = {
@@ -28,13 +28,13 @@ const StatusPanelComponent: ComponentType = {
 };
 
 export class AgStatusBar extends Component {
-    private userComponentFactory: UserComponentFactory;
+    private userCompFactory: UserComponentFactory;
     private statusBarService: StatusBarService;
     private updateQueued: boolean = false;
     private panelsPromise: AgPromise<(void | null)[]> = AgPromise.resolve();
 
     public wireBeans(beans: BeanCollection) {
-        this.userComponentFactory = beans.userComponentFactory;
+        this.userCompFactory = beans.userCompFactory;
         this.statusBarService = beans.statusBarService as StatusBarService;
     }
 
@@ -168,7 +168,7 @@ export class AgStatusBar extends Component {
             } else {
                 const params: WithoutGridCommon<IStatusPanelParams> = {};
 
-                const compDetails = getStatusPanelCompDetails(this.userComponentFactory, componentConfig, params);
+                const compDetails = getStatusPanelCompDetails(this.userCompFactory, componentConfig, params);
                 promise = compDetails.newAgStackInstance();
 
                 if (promise == null) {

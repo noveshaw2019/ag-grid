@@ -30,14 +30,14 @@ import type { SideBarService } from './sideBarService';
 import { ToolPanelWrapper } from './toolPanelWrapper';
 
 export class AgSideBar extends Component implements ISideBar {
-    private focusService: FocusService;
+    private focusSvc: FocusService;
     private filterManager?: FilterManager;
-    private sideBarService: SideBarService;
+    private sideBarSvc: SideBarService;
 
     public wireBeans(beans: BeanCollection) {
-        this.focusService = beans.focusService;
+        this.focusSvc = beans.focusSvc;
         this.filterManager = beans.filterManager;
-        this.sideBarService = beans.sideBarService as SideBarService;
+        this.sideBarSvc = beans.sideBar as SideBarService;
     }
 
     private readonly sideBarButtons: AgSideBarButtons = RefPlaceholder;
@@ -67,7 +67,7 @@ export class AgSideBar extends Component implements ISideBar {
 
         this.addManagedPropertyListener('sideBar', this.onSideBarUpdated.bind(this));
 
-        this.sideBarService.registerSideBarComp(this);
+        this.sideBarSvc.registerSideBarComp(this);
         const eGui = this.getFocusableElement();
         this.createManagedBean(
             new ManagedFocusFeature(eGui, {
@@ -76,7 +76,7 @@ export class AgSideBar extends Component implements ISideBar {
             })
         );
 
-        _addFocusableContainerListener(this, eGui, this.focusService);
+        _addFocusableContainerListener(this, eGui, this.focusSvc);
     }
 
     protected onTabKeyDown(e: KeyboardEvent) {
@@ -84,7 +84,7 @@ export class AgSideBar extends Component implements ISideBar {
             return;
         }
 
-        const { focusService, sideBarButtons } = this;
+        const { focusSvc, sideBarButtons } = this;
         const eGui = this.getGui();
         const sideBarGui = sideBarButtons.getGui();
         const activeElement = _getActiveDomElement(this.gos) as HTMLElement;
@@ -92,11 +92,11 @@ export class AgSideBar extends Component implements ISideBar {
         const target = e.target as HTMLElement;
 
         if (!openPanel) {
-            return focusService.focusNextGridCoreContainer(e.shiftKey, true);
+            return focusSvc.focusNextGridCoreContainer(e.shiftKey, true);
         }
 
         if (sideBarGui.contains(activeElement)) {
-            if (focusService.focusInto(openPanel, e.shiftKey)) {
+            if (focusSvc.focusInto(openPanel, e.shiftKey)) {
                 e.preventDefault();
             }
             return;
@@ -110,9 +110,9 @@ export class AgSideBar extends Component implements ISideBar {
         let nextEl: HTMLElement | null = null;
 
         if (openPanel.contains(activeElement)) {
-            nextEl = this.focusService.findNextFocusableElement(openPanel, undefined, true);
-        } else if (focusService.isTargetUnderManagedComponent(openPanel, target) && e.shiftKey) {
-            nextEl = this.focusService.findFocusableElementBeforeTabGuard(openPanel, target);
+            nextEl = this.focusSvc.findNextFocusableElement(openPanel, undefined, true);
+        } else if (focusSvc.isTargetUnderManagedComponent(openPanel, target) && e.shiftKey) {
+            nextEl = this.focusSvc.findFocusableElementBeforeTabGuard(openPanel, target);
         }
 
         if (!nextEl) {
@@ -380,7 +380,7 @@ export class AgSideBar extends Component implements ISideBar {
     ): void {
         const switchingToolPanel = !!key && !!previousKey;
         if (previousKey) {
-            this.eventService.dispatchEvent({
+            this.eventSvc.dispatchEvent({
                 type: 'toolPanelVisibleChanged',
                 source,
                 key: previousKey,
@@ -389,7 +389,7 @@ export class AgSideBar extends Component implements ISideBar {
             });
         }
         if (key) {
-            this.eventService.dispatchEvent({
+            this.eventSvc.dispatchEvent({
                 type: 'toolPanelVisibleChanged',
                 source,
                 key,
@@ -458,7 +458,7 @@ export class AgSideBar extends Component implements ISideBar {
     }
 
     private dispatchSideBarUpdated(): void {
-        this.eventService.dispatchEvent({ type: 'sideBarUpdated' });
+        this.eventSvc.dispatchEvent({ type: 'sideBarUpdated' });
     }
 
     private destroyToolPanelWrappers(): void {
