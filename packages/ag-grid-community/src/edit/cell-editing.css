@@ -35,3 +35,7 @@
 .ag-checkbox-edit {
     padding-left: var(--ag-cell-horizontal-padding);
 }
+
+.ag-cell-inline-editing {
+    border: var(--ag-input-focus-border) !important;
+}

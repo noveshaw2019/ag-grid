@@ -107,7 +107,3 @@
 .ag-range-handle {
     cursor: nwse-resize;
 }
-
-.ag-cell-inline-editing {
-    border: var(--ag-input-focus-border) !important;
-}
