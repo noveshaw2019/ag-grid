@@ -5,7 +5,7 @@ import type { Part } from './Part';
 import { asPartImpl } from './Part';
 import type { CoreParams } from './core/core-css';
 import { coreDefaults } from './core/core-css';
-import { _injectCoreAndModuleCSS, _injectGlobalCSS } from './inject';
+import { IS_SSR, _injectCoreAndModuleCSS, _injectGlobalCSS } from './inject';
 import type { CssFragment } from './theme-types';
 import { paramValueToCss } from './theme-types';
 import { paramToVariableName } from './theme-utils';
@@ -39,7 +39,6 @@ let customThemeCounter = 0;
 export const createTheme = (id: string = `customTheme${++customThemeCounter}`): Theme<CoreParams> =>
     /*#__PURE__*/ new ThemeImpl(id);
 
-const IS_SSR = typeof window !== 'object' || !window?.document?.fonts?.forEach;
 let themeClassCounter = 0;
 let uninstalledLegacyCSS = false;
 

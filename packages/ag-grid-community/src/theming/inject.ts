@@ -1,6 +1,8 @@
 import { _getAllRegisteredModules } from '../modules/moduleRegistry';
 import { coreCSS } from './core/core.css-GENERATED';
 
+export const IS_SSR = typeof window !== 'object' || !window?.document?.fonts?.forEach;
+
 type Injection = {
     css: Set<string>;
     last?: HTMLStyleElement;
@@ -9,6 +11,7 @@ type Injection = {
 const injections = new WeakMap<HTMLElement, Injection>();
 
 export const _injectGlobalCSS = (css: string, container: HTMLElement, id = '') => {
+    if (IS_SSR) return;
     const root = container.getRootNode() === document ? document.head : container;
 
     let injection = injections.get(root);
