@@ -1,143 +1,78 @@
 {
-  "$schema": "./node_modules/nx/schemas/nx-schema.json",
-  "plugins": [
-    "./plugins/ag-grid-task-autogen",
-    {
-      "plugin": "@nx/vite/plugin",
-      "options": {
-        "buildTargetName": "build",
-        "testTargetName": "vite:test",
-        "serveTargetName": "serve",
-        "previewTargetName": "preview",
-        "serveStaticTargetName": "serve-static"
-      }
-    }
-  ],
-  "affected": {
-    "defaultBase": "latest"
-  },
-  "namedInputs": {
-    "default": ["{projectRoot}/**/*", "sharedGlobals"],
-    "defaultExcludes": [
-      "buildOutputExcludes",
-      "!{projectRoot}/.eslintrc.*",
-      "!{projectRoot}/**/?(*.)+(spec|test).[jt]s?(x)?(.snap)",
-      "!{projectRoot}/**/test/**",
-      "!{projectRoot}/**/__image_snapshots__/**",
-      "!{projectRoot}/tsconfig.spec.json",
-      "!{projectRoot}/jest.config.[jt]s"
-    ],
-    "buildOutputExcludes": ["!{projectRoot}/dist/**"],
-    "production": [
-      "default",
-      "defaultExcludes",
-      "!{projectRoot}/**/?(*.)+(spec|test).[jt]s?(x)?(.snap)",
-      "!{projectRoot}/tsconfig.spec.json"
-    ],
-    "tsDeclarations": [
-      {
-        "dependentTasksOutputFiles": "**/*.d.ts",
-        "transitive": false
-      }
-    ],
-    "jsOutputs": [
-      {
-        "dependentTasksOutputFiles": "**/*.js",
-        "transitive": false
-      }
-    ],
-    "styleOutputs": [
-      {
-        "dependentTasksOutputFiles": "**/*.*css",
-        "transitive": true
-      }
-    ],
-    "allOutputs": [
-      {
-        "dependentTasksOutputFiles": "**/*",
-        "transitive": false
-      }
-    ],
-    "allTransitiveOutputs": [
-      {
-        "dependentTasksOutputFiles": "**/*",
-        "transitive": true
-      }
-    ],
-    "tsDefaults": [
-      "{projectRoot}/package.json",
-      "{projectRoot}/src/**/*",
-      "{projectRoot}/tsconfig.*.json",
-      "tsDeclarations",
-      "sharedGlobals",
-      "defaultExcludes",
-      {
-        "externalDependencies": ["npm:typescript", "npm:esbuild"]
-      }
-    ],
-    "sharedGlobals": ["{workspaceRoot}/esbuild.config*.cjs", "{workspaceRoot}/tsconfig.*.json"]
-  },
-  "targetDefaults": {
-    "build": {
-      "dependsOn": ["^build"],
-      "inputs": ["production", "^production"],
-      "cache": true
-    },
-    "build:types": {
-      "dependsOn": ["^build:types"],
-      "inputs": ["production", "^production"],
-      "cache": true
-    },
-    "build:package": {
-      "dependsOn": ["^build:package"],
-      "inputs": ["production", "^production"],
-      "cache": true
-    },
-    "build:umd": {
-      "dependsOn": ["build:package", "^build:package"],
-      "inputs": ["^jsOutputs"],
-      "cache": true
-    },
-    "build:styles": {
-      "dependsOn": ["^build:styles"],
-      "inputs": ["production", "^production"],
-      "cache": true
-    },
-    "lint": {
-      "inputs": ["default", "{workspaceRoot}/.eslintrc.json", "{workspaceRoot}/.eslintignore"],
-      "cache": true
-    },
-    "test": {
-      "inputs": ["default", "buildOutputExcludes", "^production", "{workspaceRoot}/jest.preset.js"],
-      "outputs": [],
-      "cache": true
-    },
-    "e2e": {
-      "inputs": ["default", "buildOutputExcludes", "^production"],
-      "outputs": [],
-      "cache": true
-    },
-    "pack": {
-      "inputs": ["allTransitiveOutputs"],
-      "cache": true
-    },
-    "@nx/jest:jest": {
-      "inputs": ["default", "^production", "{workspaceRoot}/jest.preset.js"],
-      "cache": true,
-      "options": {
-        "passWithNoTests": true
-      },
-      "configurations": {
-        "ci": {
-          "ci": true,
-          "codeCoverage": true
+    "$schema": "./node_modules/nx/schemas/nx-schema.json",
+    "plugins": [
+        "./plugins/ag-grid-task-autogen",
+        {
+            "plugin": "@nx/vite/plugin",
+            "options": {
+                "buildTargetName": "build",
+                "testTargetName": "vite:test",
+                "serveTargetName": "serve",
+                "previewTargetName": "preview",
+                "serveStaticTargetName": "serve-static"
+            }
         }
-      }
+    ],
+    "affected": { "defaultBase": "latest" },
+    "namedInputs": {
+        "default": ["{projectRoot}/**/*", "sharedGlobals"],
+        "defaultExcludes": [
+            "buildOutputExcludes",
+            "!{projectRoot}/.eslintrc.*",
+            "!{projectRoot}/**/?(*.)+(spec|test).[jt]s?(x)?(.snap)",
+            "!{projectRoot}/**/test/**",
+            "!{projectRoot}/**/__image_snapshots__/**",
+            "!{projectRoot}/tsconfig.spec.json",
+            "!{projectRoot}/jest.config.[jt]s"
+        ],
+        "buildOutputExcludes": ["!{projectRoot}/dist/**"],
+        "production": [
+            "default",
+            "defaultExcludes",
+            "!{projectRoot}/**/?(*.)+(spec|test).[jt]s?(x)?(.snap)",
+            "!{projectRoot}/tsconfig.spec.json"
+        ],
+        "tsDeclarations": [{ "dependentTasksOutputFiles": "**/*.d.ts", "transitive": false }],
+        "jsOutputs": [{ "dependentTasksOutputFiles": "**/*.js", "transitive": false }],
+        "styleOutputs": [{ "dependentTasksOutputFiles": "**/*.*css", "transitive": true }],
+        "allOutputs": [{ "dependentTasksOutputFiles": "**/*", "transitive": false }],
+        "allTransitiveOutputs": [{ "dependentTasksOutputFiles": "**/*", "transitive": true }],
+        "tsDefaults": [
+            "{projectRoot}/package.json",
+            "{projectRoot}/src/**/*",
+            "{projectRoot}/tsconfig.*.json",
+            "tsDeclarations",
+            "sharedGlobals",
+            "defaultExcludes",
+            { "externalDependencies": ["npm:typescript", "npm:esbuild"] }
+        ],
+        "sharedGlobals": ["{workspaceRoot}/esbuild.config*.cjs", "{workspaceRoot}/tsconfig.*.json"]
     },
-    "@nx/vite:test": {
-      "cache": true,
-      "inputs": ["default", "^production"]
-    }
-  },
-  "defaultProject": "all"
+    "targetDefaults": {
+        "build": { "dependsOn": ["^build"], "inputs": ["production", "^production"], "cache": true },
+        "build:types": { "dependsOn": ["^build:types"], "inputs": ["production", "^production"], "cache": true },
+        "build:package": { "dependsOn": ["^build:package"], "inputs": ["production", "^production"], "cache": true },
+        "build:umd": { "dependsOn": ["build:package", "^build:package"], "inputs": ["^jsOutputs"], "cache": true },
+        "build:styles": { "dependsOn": ["^build:styles"], "inputs": ["production", "^production"], "cache": true },
+        "lint": {
+            "inputs": ["default", "{workspaceRoot}/.eslintrc.json", "{workspaceRoot}/.eslintignore"],
+            "cache": true
+        },
+        "test": {
+            "inputs": ["default", "buildOutputExcludes", "^production", "{workspaceRoot}/jest.preset.js"],
+            "outputs": [],
+            "cache": true
+        },
+        "e2e": { "inputs": ["default", "buildOutputExcludes", "^production"], "outputs": [], "cache": true },
+        "pack": { "inputs": ["allTransitiveOutputs"], "cache": true },
+        "@nx/jest:jest": {
+            "inputs": ["default", "^production", "{workspaceRoot}/jest.preset.js"],
+            "cache": true,
+            "options": { "passWithNoTests": true },
+            "configurations": { "ci": { "ci": true, "codeCoverage": true } }
+        },
+        "@nx/vite:test": { "cache": true, "inputs": ["default", "^production"] }
+    },
+    "defaultProject": "all",
+    "nxCloudAccessToken": "YjI2Yjg3MDMtZjg4NC00ODJkLThkZWQtOGQyYWQ4YzNkNGIxfHJlYWQtd3JpdGU="
 }
